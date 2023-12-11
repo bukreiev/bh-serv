@@ -4,9 +4,14 @@ const cors = require('cors');
 require('dotenv').config();
 const sgMail = require('@sendgrid/mail');
 const { TO, FROM } = process.env;
+const path = require('path');
 
 const app = express();
 
+app.use(express.static(path.join(__dirname, 'build')));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(
