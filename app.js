@@ -9,7 +9,14 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
 sgMail.setApiKey(process.env.SG_KEY);
 
 app.post('/send-email', async (req, res) => {
@@ -25,7 +32,6 @@ app.post('/send-email', async (req, res) => {
   try {
     await sgMail.send(msg);
     console.log('Email отправлен успешно');
-    res.header('Access-Control-Allow-Origin', '*');
     res.status(200).send('Email отправлен успешно');
   } catch (error) {
     console.error(error);
