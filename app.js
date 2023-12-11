@@ -9,7 +9,11 @@ const app = express();
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-app.use(cors());
+app.use(
+  cors({
+    origin: '*',
+  })
+);
 sgMail.setApiKey(process.env.SG_KEY);
 
 app.post('/send-email', async (req, res) => {
